@@ -156,12 +156,6 @@
     #Interpolate and smooth dataset (butterworth filter of 1/100 frequency)
     UACBwPASph <- my.bw(signalMultipleApproMatScaSph[, 2], 
                      oriAreaSphMean)
-    
-    #Clip the original time sequence for interpolation, to fit the smoothed data
-    UACSmooTimeSeqPASph <- UACBwPASph[, 1]
-    
-    meanGSmooPlotSphScaMeanPASph <- mean(UACBwPASph[, 2])
-    meanGSmooPlotSphScaSDPASph <- sd(UACBwPASph[, 2])
   }
   
   #Alnus
@@ -241,12 +235,6 @@
     #Interpolate and smooth dataset (butterworth filter of 1/100 frequency)
     UACBwPAAln <- my.bw(signalMultipleApproMatScaAln[, 2], 
                         oriAreaAlnMean)
-    
-    #Clip the original time sequence for interpolation, to fit the smoothed data
-    UACSmooTimeSeqPAAln <- UACBwPAAln[, 1]
-    
-    meanGSmooPlotAlnScaMeanPAAln <- mean(UACBwPAAln[, 2])
-    meanGSmooPlotAlnScaSDPAAln <- sd(UACBwPAAln[, 2])
   }
   
   #Calluna
@@ -326,12 +314,6 @@
     #Interpolate and smooth dataset (butterworth filter of 1/100 frequency)
     UACBwPACal <- my.bw(signalMultipleApproMatScaCal[, 2], 
                         oriAreaCalMean)
-    
-    #Clip the original time sequence for interpolation, to fit the smoothed data
-    UACSmooTimeSeqPACal <- UACBwPACal[, 1]
-    
-    meanGSmooPlotCalScaMeanPACal <- mean(UACBwPACal[, 2])
-    meanGSmooPlotCalScaSDPACal <- sd(UACBwPACal[, 2])
   }
 }
 
@@ -354,4 +336,18 @@
   
   write.csv(signalMultipleApproMatSca, file = here('Output_R',
                                                    'signalMultipleApproMatSca.csv'))
+  
+  #Smoothed UAC signals
+  signalMultipleApproMatScaSmoo <- rbind(cbind(Taxa = 'Sph',
+                                               UACBwPASph),
+                                         cbind(Taxa = 'Aln',
+                                               UACBwPAAln),
+                                         cbind(Taxa = 'Cal',
+                                               UACBwPACal))
+  
+  colnames(signalMultipleApproMatScaSmoo)[2:3] <- c('Date', 'Peak_Area')
+  
+  write.csv(signalMultipleApproMatScaSmoo, file = here('Output_R', 'signalMultipleApproMatScaSmoo.csv'))
+  
+  
 }
