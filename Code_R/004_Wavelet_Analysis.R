@@ -129,13 +129,11 @@
                timelab = "Cal yr BP", 
                legend.params = list(lab = "wavelet power levels", mar=4.7, label.digits = 3), 
                plot.ridge = F,
-               spec.time.axis = list(at = (seq(from = -100, to = 4000, by = 100) -
+               spec.time.axis = list(at = (seq(from = -100, to = 2700, by = 100) -
                                              min(interTimeSeqSph))/aveTimeIntervalSph + 1,
                                      labels = c('','0', rep(' ', 9),
                                                 '1000', rep(' ', 9),
-                                                '2000', rep(' ', 9),
-                                                '3000', rep(' ', 9),
-                                                '4000'),
+                                                '2000', rep(' ', 7)),
                                      las = 2, hadj = NA, padj = NA),
                spec.period.axis = list(at = c(64, 128, 256, 512, 1024),
                                        las = 1, hadj = NA, padj = NA),
@@ -152,13 +150,11 @@
                timelab = "Cal yr BP", 
                legend.params = list(lab = "wavelet power levels", mar=4.7, label.digits = 3), 
                plot.ridge = F,
-               spec.time.axis = list(at = (seq(from = -100, to = 4000, by = 100) -
+               spec.time.axis = list(at = (seq(from = -100, to = 2700, by = 100) -
                                              min(interTimeSeqAln))/aveTimeIntervalAln + 1,
                                      labels = c('','0', rep(' ', 9),
                                                 '1000', rep(' ', 9),
-                                                '2000', rep(' ', 9),
-                                                '3000', rep(' ', 9),
-                                                '4000'),
+                                                '2000', rep(' ', 7)),
                                      las = 2, hadj = NA, padj = NA),
                spec.period.axis = list(at = c(64, 128, 256, 512, 1024),
                                        las = 1, hadj = NA, padj = NA),
@@ -175,13 +171,11 @@
                timelab = "Cal yr BP", 
                legend.params = list(lab = "wavelet power levels", mar=4.7, label.digits = 3), 
                plot.ridge = F,
-               spec.time.axis = list(at = (seq(from = -100, to = 4000, by = 100) -
+               spec.time.axis = list(at = (seq(from = -100, to = 2700, by = 100) -
                                              min(interTimeSeqCal))/aveTimeIntervalCal + 1,
                                      labels = c('','0', rep(' ', 9),
                                                 '1000', rep(' ', 9),
-                                                '2000', rep(' ', 9),
-                                                '3000', rep(' ', 9),
-                                                '4000'),
+                                                '2000', rep(' ', 7)),
                                      las = 2, hadj = NA, padj = NA),
                spec.period.axis = list(at = c(64, 128, 256, 512, 1024),
                                        las = 1, hadj = NA, padj = NA),

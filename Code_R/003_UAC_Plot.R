@@ -78,7 +78,7 @@
                                         oriUACMeanSph + oriUACSDSph),
                          position = 'left',
                          guide = guide_axis(cap = TRUE)) +
-      scale_x_reverse(limits = c(4000, -100), 
+      scale_x_reverse(limits = c(2800, -100), 
                       breaks= 1950 - seq(from = -2000, to = 2000, by = 100), 
                       labels=c(2000, rep('', 4),
                                1500,rep('', 4),
@@ -150,7 +150,7 @@
                                         oriUACMeanAln + oriUACSDAln),
                          position = 'left',
                          guide = guide_axis(cap = TRUE)) +
-      scale_x_reverse(limits = c(4000, -100), 
+      scale_x_reverse(limits = c(2800, -100), 
                       breaks= 1950 - seq(from = -2000, to = 2000, by = 100), 
                       labels=c(2000, rep('', 4),
                                1500,rep('', 4),
@@ -222,7 +222,7 @@
                                         oriUACMeanCal + oriUACSDCal),
                          position = 'left',
                          guide = guide_axis(cap = TRUE)) +
-      scale_x_reverse(limits = c(4000, -100), 
+      scale_x_reverse(limits = c(2800, -100), 
                       breaks= 1950 - seq(from = -2000, to = 2000, by = 100), 
                       labels=c(2000, rep('', 4),
                                1500,rep('', 4),
@@ -252,41 +252,71 @@
     correUACSection <- read.csv(file = file.path('Output_R', 'correUACSection.csv'),
                                 header = TRUE, row.names = 1)
     
-    adjMid <- vector(length = nrow(correUACSection))
+    adjMid <- vector(length = nrow(correUACSection) + 3)
     adjMid[1] <- correUACSection[1, 2]
+    adjMid[2] <- mean(c(correUACSection[2, 2], correUACSection[1 , 3]))
     
-    for (loopI in 2:length(adjMid)) {
-      adjMid[loopI] <- mean(c(correUACSection[loopI, 2], correUACSection[loopI - 1, 3]))
+    loopI <- 2
+    loopJ <- 2
+    loopJInd <- c()
+    while (loopJ <= nrow(correUACSection)) {
+      if (loopJ < nrow(correUACSection)) {
+        if (correUACSection[loopJ, 1] != correUACSection[loopJ + 1, 1]) {
+          
+          adjMid[loopI] <- mean(c(correUACSection[loopJ, 2], correUACSection[loopJ - 1, 3]))
+          adjMid[loopI + 1] <- correUACSection[loopJ, 3]
+          
+          adjMid[loopI + 2] <- correUACSection[loopJ + 1, 2]
+          
+          loopI <- loopI + 3
+          
+          loopJInd[length(loopJInd) + 1] <- loopJ
+          
+          loopJ <- loopJ + 2
+          
+        }else {
+          
+          adjMid[loopI] <- mean(c(correUACSection[loopJ, 2], correUACSection[loopJ - 1, 3]))
+          
+          loopI <- loopI + 1
+          
+          loopJ <- loopJ + 1
+        }
+        
+      }else {
+        
+        adjMid[loopI] <- mean(c(correUACSection[loopJ, 2], correUACSection[loopJ - 1, 3]))
+        
+        adjMid[loopI + 1] <- correUACSection[loopJ, 3]
+        
+        
+        loopI <- loopI + 2
+        
+        loopJ <- loopJ + 2
+      }
     }
-    
-    adjMid[13] <- correUACSection[13,2]
-    adjMid[25] <- correUACSection[25,2]
-    
-    correUACSection <- cbind(correUACSection, mid = adjMid)
-    correUACSection <- rbind(correUACSection[1,],
-                             correUACSection[1:12,],
-                             correUACSection[12,],
-                             correUACSection[13,],
-                             correUACSection[13:24,],
-                             correUACSection[24,],
-                             correUACSection[25,],
-                             correUACSection[25:nrow(correUACSection),],
+
+    correUACSection <- rbind(correUACSection[1:loopJInd[1],],
+                             correUACSection[loopJInd[1],],
+                             correUACSection[(loopJInd[1] + 1):loopJInd[2],],
+                             correUACSection[loopJInd[2],],
+                             correUACSection[(loopJInd[2] + 1):nrow(correUACSection),],
                              correUACSection[nrow(correUACSection),])
-    
-    correUACSection[c(2, 14, 16, 28, 30, 42), 6] <- correUACSection[c(2, 14, 16, 28, 30, 42), 3]
-    correUACSection[c(1, 15, 29), 6] <- -54
+    correUACSection <- cbind(correUACSection, mid = adjMid)
+
     
     sectionedCorrelationPlot <- ggplot(data = correUACSection) +
       geom_step(aes(x = mid,
                     y = r,
                     color = Taxa),
                 linewidth = 1,
-                alpha = 0.6) +
+                alpha = 0.6,
+                direction = 'vh') +
       scale_color_manual(name = 'Taxa',
                          values = c(brewer.pal(3, 'Set2')
                                     )
                          ) +
-      scale_x_reverse(limits = c(4000, -100), 
+      scale_x_reverse(limits = c(2800, -100), 
                       breaks= 1950 - seq(from = -2000, to = 2000, by = 100), 
                       labels=c(2000, rep('', 4),
                                1500,rep('', 4),
@@ -339,7 +369,7 @@
               axis.ticks.x = element_blank()
         ),
       averageUACStandalonePACal +
-        scale_x_reverse(limits = c(4000, -100), 
+        scale_x_reverse(limits = c(2800, -100), 
                         breaks= 1950 - seq(from = -2000, to = 2000, by = 100), 
                         labels=c(2000, rep('', 4),
                                  1500,rep('', 4),
@@ -357,15 +387,14 @@
         theme(plot.title = element_text(size = 14, family = 'arial'),
               axis.text.y = element_text(size = 10, family = 'arial'),
               axis.title.y = element_text(size = 12, family = 'arial'),
-              axis.text.x = element_blank(),
-              axis.title.x = element_blank(),
-              axis.line.x = element_blank(),
-              axis.ticks.x = element_blank()
+              axis.text.x = element_text(size = 10, family = 'arial'),
+              axis.title.x = element_text(size = 12, family = 'arial'),
+              # axis.line.x = element_blank(),
+              # axis.ticks.x = element_blank()
         ),
-      sectionedCorrelationPlot,
-      heights = c(1.2,2,2, 1.2),
-      widths = c(1,1,1, 1),
-      ncol = 1, nrow = 4,
+      heights = c(1.2,2,2),
+      widths = c(1,1,1),
+      ncol = 1, nrow = 3,
       align = "v"
     )
     

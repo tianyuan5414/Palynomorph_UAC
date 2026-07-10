@@ -128,6 +128,8 @@
     
     rm(loopI)
     
+    signalMultipleApproMatScaSph <- signalMultipleApproMatScaSph[which(signalMultipleApproMatScaSph[, 5] >= 20), ]
+    
     #Flip the wavenumber columns
     rawSmooBCSpecMatSphFlip <-
       t(apply(rawSmooBCSpecMatSph[, 2:ncol(rawSmooBCSpecMatSph)], 1, rev))
@@ -138,18 +140,18 @@
                                      bands = c(1492, 1540), 
                                      refine = FALSE)$area)
     
-    oriAreaSphMean <- unique(rawSmooBCSpecMatSph[, 1])
+    oriAreaSphMean <- unique(signalMultipleApproMatScaSph[, 1])
     
-    oriAreaSphSD <- unique(rawSmooBCSpecMatSph[, 1])
+    oriAreaSphSD <- unique(signalMultipleApproMatScaSph[, 1])
     
     #Calculate the mean and sd of each sample
-    for (loopI in 1:length(unique(rawSmooBCSpecMatSph[, 1]))) {
+    for (loopI in 1:length(unique(signalMultipleApproMatScaSph[, 1]))) {
       
       oriAreaSphMean[loopI] <- mean(oriArea[which(rawSmooBCSpecMatSph[, 1] ==
-                                                    unique(rawSmooBCSpecMatSph[, 1])[loopI])])
+                                                    unique(signalMultipleApproMatScaSph[, 1])[loopI])])
       
       oriAreaSphSD[loopI] <- sd(oriArea[which(rawSmooBCSpecMatSph[, 1] ==
-                                                unique(rawSmooBCSpecMatSph[, 1])[loopI])])
+                                                unique(signalMultipleApproMatScaSph[, 1])[loopI])])
       
     }
     
@@ -207,6 +209,8 @@
     
     rm(loopI)
     
+    signalMultipleApproMatScaAln <- signalMultipleApproMatScaAln[which(signalMultipleApproMatScaAln[, 5] >= 10), ]
+    
     #Flip the wavenumber columns
     rawSmooBCSpecMatAlnFlip <-
       t(apply(rawSmooBCSpecMatAln[, 2:ncol(rawSmooBCSpecMatAln)], 1, rev))
@@ -217,18 +221,18 @@
                                      bands = c(1492, 1540), 
                                      refine = FALSE)$area)
     
-    oriAreaAlnMean <- unique(rawSmooBCSpecMatAln[, 1])
+    oriAreaAlnMean <- unique(signalMultipleApproMatScaAln[, 1])
     
-    oriAreaAlnSD <- unique(rawSmooBCSpecMatAln[, 1])
+    oriAreaAlnSD <- unique(signalMultipleApproMatScaAln[, 1])
     
     #Calculate the mean and sd of each sample
-    for (loopI in 1:length(unique(rawSmooBCSpecMatAln[, 1]))) {
+    for (loopI in 1:length(unique(signalMultipleApproMatScaAln[, 1]))) {
       
       oriAreaAlnMean[loopI] <- mean(oriArea[which(rawSmooBCSpecMatAln[, 1] ==
-                                                    unique(rawSmooBCSpecMatAln[, 1])[loopI])])
+                                                    unique(signalMultipleApproMatScaAln[, 1])[loopI])])
       
       oriAreaAlnSD[loopI] <- sd(oriArea[which(rawSmooBCSpecMatAln[, 1] ==
-                                                unique(rawSmooBCSpecMatAln[, 1])[loopI])])
+                                                unique(signalMultipleApproMatScaAln[, 1])[loopI])])
       
     }
     
@@ -286,6 +290,8 @@
     
     rm(loopI)
     
+    signalMultipleApproMatScaCal <- signalMultipleApproMatScaCal[which(signalMultipleApproMatScaCal[, 5] >= 20), ]
+    
     #Flip the wavenumber columns
     rawSmooBCSpecMatCalFlip <-
       t(apply(rawSmooBCSpecMatCal[, 2:ncol(rawSmooBCSpecMatCal)], 1, rev))
@@ -296,18 +302,18 @@
                                      bands = c(1492, 1540), 
                                      refine = FALSE)$area)
     
-    oriAreaCalMean <- unique(rawSmooBCSpecMatCal[, 1])
+    oriAreaCalMean <- unique(signalMultipleApproMatScaCal[, 1])
     
-    oriAreaCalSD <- unique(rawSmooBCSpecMatCal[, 1])
+    oriAreaCalSD <- unique(signalMultipleApproMatScaCal[, 1])
     
     #Calculate the mean and sd of each sample
-    for (loopI in 1:length(unique(rawSmooBCSpecMatCal[, 1]))) {
+    for (loopI in 1:length(unique(signalMultipleApproMatScaCal[, 1]))) {
       
       oriAreaCalMean[loopI] <- mean(oriArea[which(rawSmooBCSpecMatCal[, 1] ==
-                                                    unique(rawSmooBCSpecMatCal[, 1])[loopI])])
+                                                    unique(signalMultipleApproMatScaCal[, 1])[loopI])])
       
       oriAreaCalSD[loopI] <- sd(oriArea[which(rawSmooBCSpecMatCal[, 1] ==
-                                                unique(rawSmooBCSpecMatCal[, 1])[loopI])])
+                                                unique(signalMultipleApproMatScaCal[, 1])[loopI])])
       
     }
     
@@ -328,22 +334,23 @@
   signalMultipleApproMatScaCal[, 4] <- oriAreaCalSD
   
   signalMultipleApproMatSca <- rbind(cbind(Taxa = 'Sph',
-                                           signalMultipleApproMatScaSph),
+                                           signalMultipleApproMatScaSph[which(signalMultipleApproMatScaSph[, 2] <= 2700), ]),
                                      cbind(Taxa = 'Aln',
-                                           signalMultipleApproMatScaAln),
+                                           signalMultipleApproMatScaAln[which(signalMultipleApproMatScaAln[, 2] <= 2700), ]),
                                      cbind(Taxa = 'Cal',
-                                           signalMultipleApproMatScaCal))
+                                           signalMultipleApproMatScaCal[which(signalMultipleApproMatScaCal[, 2] <= 2700), ]))
   
   write.csv(signalMultipleApproMatSca, file = here('Output_R',
                                                    'signalMultipleApproMatSca.csv'))
   
   #Smoothed UAC signals
   signalMultipleApproMatScaSmoo <- rbind(cbind(Taxa = 'Sph',
-                                               UACBwPASph),
+                                               UACBwPASph[which(UACBwPASph[, 1] <= 2700), ]),
                                          cbind(Taxa = 'Aln',
-                                               UACBwPAAln),
+                                               UACBwPAAln[which(UACBwPAAln[, 1] <= 2700), ]),
                                          cbind(Taxa = 'Cal',
-                                               UACBwPACal))
+                                               UACBwPACal[which(UACBwPACal[, 1] <= 2700), ])
+                                         )
   
   colnames(signalMultipleApproMatScaSmoo)[2:3] <- c('Date', 'Peak_Area')
   

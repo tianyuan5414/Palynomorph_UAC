@@ -256,7 +256,7 @@
                                    UACSignalsOriAln,
                                    findLocalExt(UACSignalsSph,
                                                 UACSignalsOriSph,
-                                                7,
+                                                11,
                                                 UACSignalsOriAln))
   
   #Sphagnum & Calluna
@@ -264,7 +264,7 @@
                                          UACSignalsOriCal,
                                          findLocalExt(UACSignalsSph,
                                                       UACSignalsOriSph,
-                                                      7,
+                                                      11,
                                                       UACSignalsOriCal))
   
   #Alnus & Calluna
@@ -272,7 +272,7 @@
                                          UACSignalsOriCal,
                                          findLocalExt(UACSignalsAln,
                                                       UACSignalsOriAln,
-                                                      7,
+                                                      11,
                                                       UACSignalsOriCal))
 }
 
