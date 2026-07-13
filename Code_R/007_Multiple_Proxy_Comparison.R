@@ -265,7 +265,6 @@
   UACSignalsOriCal <- UACSignalsOri[which(UACSignalsOri[, 1] == 'Cal'),]
 }
 
-
 #Read TSI records (Now using newer TSI data from Wu et al., 2018)
 {
   #Read TSI data
