@@ -294,7 +294,7 @@
   #West Mediterranean index
   {
     #Read raw data
-    WMIRaw <- apply(as.matrix(read.csv(here('Data_R', 'WMI_AitBrahim.csv'))), c(1,2),
+    WMIRaw <- apply(as.matrix(read.csv(file.path('Data_R', 'WMI_AitBrahim.csv'))), c(1,2),
                     as.numeric)
     
     #Reverse the order of row
@@ -313,7 +313,7 @@
   #Scotland precipitation (stalagmite growth-rate record)
   {
     #Read raw data
-    SURaw <- apply(as.matrix(read.csv(here('Data_R', 'SUcomp_Baker.csv'))), c(1,2),
+    SURaw <- apply(as.matrix(read.csv(file.path('Data_R', 'SUcomp_Baker.csv'))), c(1,2),
                    as.numeric)
     
     #Reverse the order of row
@@ -366,7 +366,7 @@
   
   #Read VSSI data
   {
-    vssiRaw <- read.csv(here('Data_R', 'VolSulferMat.csv'), row.names = 1)
+    vssiRaw <- read.csv(file.path('Data_R', 'VolSulferMat.csv'), row.names = 1)
     
     vssiRaw[, 1] <- -vssiRaw[, 1]
     vssiRaw[, 3] <- -vssiRaw[, 3]

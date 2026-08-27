@@ -18,7 +18,7 @@
   
   #Load arial font into R
   library(showtext)
-  font_add(family = "arial", regular = here('Fonts', 'arial.ttf'))
+  font_add(family = "arial", regular = file.path('Fonts', 'arial.ttf'))
   showtext_auto()
   
   #Palette
@@ -29,6 +29,7 @@
   
   #Moving average calculation
   library(zoo)
+  library(signal)
 }
 
 #Declare necessary functions
@@ -315,7 +316,7 @@
 #West Mediterranean index
 {
   #Read raw data
-  WMIRaw <- apply(as.matrix(read.csv(here('Data_R', 'WMI_AitBrahim.csv'))), c(1,2),
+  WMIRaw <- apply(as.matrix(read.csv(file.path('Data_R', 'WMI_AitBrahim.csv'))), c(1,2),
                   as.numeric)
   
   #Reverse the order of row
@@ -334,7 +335,7 @@
 #Scotland precipitation (stalagmite growth-rate record)
 {
   #Read raw data
-  SURaw <- apply(as.matrix(read.csv(here('Data_R', 'SUcomp_Baker.csv'))), c(1,2),
+  SURaw <- apply(as.matrix(read.csv(file.path('Data_R', 'SUcomp_Baker.csv'))), c(1,2),
                  as.numeric)
   
   #Reverse the order of row
@@ -387,7 +388,7 @@
 
 #Read VSSI data
 {
-  vssiRaw <- read.csv(here('Data_R', 'VolSulferMat.csv'), row.names = 1)
+  vssiRaw <- read.csv(file.path('Data_R', 'VolSulferMat.csv'), row.names = 1)
   
   vssiRaw[, 1] <- -vssiRaw[, 1]
   vssiRaw[, 3] <- -vssiRaw[, 3]
@@ -428,65 +429,65 @@
                                 'Calluna & WMO',
                                 'Calluna & VSSI')
   
-  correUACProxyRecord[1, 2] <- my.corr.test2(UAC3Sph, UAC.AGE3Sph, TSISmooPlot[,1], TSISmooPlot[,2])$estimate
+  correUACProxyRecord[1, 2] <- my.corr.test2(UAC3Sph, UAC.AGE3Sph, TSIRaw[,1], TSIRaw[,2])$estimate
   
-  correUACProxyRecord[1, 3] <- round(my.corr.test2(UAC3Sph, UAC.AGE3Sph, TSISmooPlot[,1], TSISmooPlot[,2])$p.value, 4)
+  correUACProxyRecord[1, 3] <- round(my.corr.test2(UAC3Sph, UAC.AGE3Sph, TSIRaw[,1], TSIRaw[,2])$p.value, 4)
   
-  correUACProxyRecord[2, 2] <- my.corr.test2(UAC3Sph, UAC.AGE3Sph, GreenTempBW[,1], GreenTempBW[,2])$estimate
+  correUACProxyRecord[2, 2] <- my.corr.test2(UAC3Sph, UAC.AGE3Sph, GreenTempRaw[,1], GreenTempRaw[,2])$estimate
   
-  correUACProxyRecord[2, 3] <- round(my.corr.test2(UAC3Sph, UAC.AGE3Sph, GreenTempBW[,1], GreenTempBW[,2])$p.value, 4)
+  correUACProxyRecord[2, 3] <- round(my.corr.test2(UAC3Sph, UAC.AGE3Sph, GreenTempRaw[,1], GreenTempRaw[,2])$p.value, 4)
   
-  correUACProxyRecord[3, 2] <- my.corr.test2(UAC3Sph, UAC.AGE3Sph, WMIBW[,1], WMIBW[,2])$estimate
+  correUACProxyRecord[3, 2] <- my.corr.test2(UAC3Sph, UAC.AGE3Sph, WMIRaw[,1], WMIRaw[,2])$estimate
   
-  correUACProxyRecord[3, 3] <- round(my.corr.test2(UAC3Sph, UAC.AGE3Sph, WMIBW[,1], WMIBW[,2])$p.value, 4)
+  correUACProxyRecord[3, 3] <- round(my.corr.test2(UAC3Sph, UAC.AGE3Sph, WMIRaw[,1], WMIRaw[,2])$p.value, 4)
   
-  correUACProxyRecord[4, 2] <- my.corr.test2(UAC3Sph, UAC.AGE3Sph, d18OBW[,1], d18OBW[,2])$estimate
+  correUACProxyRecord[4, 2] <- my.corr.test2(UAC3Sph, UAC.AGE3Sph, WMRaw[,1], WMRaw[,2])$estimate
   
-  correUACProxyRecord[4, 3] <- round(my.corr.test2(UAC3Sph, UAC.AGE3Sph, d18OBW[,1], d18OBW[,2])$p.value, 4)
+  correUACProxyRecord[4, 3] <- round(my.corr.test2(UAC3Sph, UAC.AGE3Sph, WMRaw[,1], WMRaw[,2])$p.value, 4)
   
-  correUACProxyRecord[5, 2] <- my.corr.test2(UAC3Sph, UAC.AGE3Sph, vssiBW[,1], vssiBW[,2])$estimate
+  correUACProxyRecord[5, 2] <- my.corr.test2(UAC3Sph, UAC.AGE3Sph, vssiRaw[,1], vssiRaw[,2])$estimate
   
-  correUACProxyRecord[5, 3] <- round(my.corr.test2(UAC3Sph, UAC.AGE3Sph, vssiBW[,1], vssiBW[,2])$p.value, 4)
+  correUACProxyRecord[5, 3] <- round(my.corr.test2(UAC3Sph, UAC.AGE3Sph, vssiRaw[,1], vssiRaw[,2])$p.value, 4)
   
-  correUACProxyRecord[6, 2] <- my.corr.test2(UAC3Aln, UAC.AGE3Aln, TSISmooPlot[,1], TSISmooPlot[,2])$estimate
+  correUACProxyRecord[6, 2] <- my.corr.test2(UAC3Aln, UAC.AGE3Aln, TSIRaw[,1], TSIRaw[,2])$estimate
   
-  correUACProxyRecord[6, 3] <- round(my.corr.test2(UAC3Aln, UAC.AGE3Aln, TSISmooPlot[,1], TSISmooPlot[,2])$p.value, 4)
+  correUACProxyRecord[6, 3] <- round(my.corr.test2(UAC3Aln, UAC.AGE3Aln, TSIRaw[,1], TSIRaw[,2])$p.value, 4)
   
-  correUACProxyRecord[7, 2] <- my.corr.test2(UAC3Aln, UAC.AGE3Aln, GreenTempBW[,1], GreenTempBW[,2])$estimate
+  correUACProxyRecord[7, 2] <- my.corr.test2(UAC3Aln, UAC.AGE3Aln, GreenTempRaw[,1], GreenTempRaw[,2])$estimate
   
-  correUACProxyRecord[7, 3] <- round(my.corr.test2(UAC3Aln, UAC.AGE3Aln, GreenTempBW[,1], GreenTempBW[,2])$p.value, 4)
+  correUACProxyRecord[7, 3] <- round(my.corr.test2(UAC3Aln, UAC.AGE3Aln, GreenTempRaw[,1], GreenTempRaw[,2])$p.value, 4)
   
-  correUACProxyRecord[8, 2] <- my.corr.test2(UAC3Aln, UAC.AGE3Aln, WMIBW[,1], WMIBW[,2])$estimate
+  correUACProxyRecord[8, 2] <- my.corr.test2(UAC3Aln, UAC.AGE3Aln, WMIRaw[,1], WMIRaw[,2])$estimate
   
-  correUACProxyRecord[8, 3] <- round(my.corr.test2(UAC3Aln, UAC.AGE3Aln, WMIBW[,1], WMIBW[,2])$p.value, 4)
+  correUACProxyRecord[8, 3] <- round(my.corr.test2(UAC3Aln, UAC.AGE3Aln, WMIRaw[,1], WMIRaw[,2])$p.value, 4)
   
-  correUACProxyRecord[9, 2] <- my.corr.test2(UAC3Aln, UAC.AGE3Aln, d18OBW[,1], d18OBW[,2])$estimate
+  correUACProxyRecord[9, 2] <- my.corr.test2(UAC3Aln, UAC.AGE3Aln, WMRaw[,1], WMRaw[,2])$estimate
   
-  correUACProxyRecord[9, 3] <- round(my.corr.test2(UAC3Aln, UAC.AGE3Aln, d18OBW[,1], d18OBW[,2])$p.value, 4)
+  correUACProxyRecord[9, 3] <- round(my.corr.test2(UAC3Aln, UAC.AGE3Aln, WMRaw[,1], WMRaw[,2])$p.value, 4)
   
-  correUACProxyRecord[10, 2] <- my.corr.test2(UAC3Aln, UAC.AGE3Aln, vssiBW[,1], vssiBW[,2])$estimate
+  correUACProxyRecord[10, 2] <- my.corr.test2(UAC3Aln, UAC.AGE3Aln, vssiRaw[,1], vssiRaw[,2])$estimate
   
-  correUACProxyRecord[10, 3] <- round(my.corr.test2(UAC3Aln, UAC.AGE3Aln, vssiBW[,1], vssiBW[,2])$p.value, 4)
+  correUACProxyRecord[10, 3] <- round(my.corr.test2(UAC3Aln, UAC.AGE3Aln, vssiRaw[,1], vssiRaw[,2])$p.value, 4)
   
-  correUACProxyRecord[11, 2] <- my.corr.test2(UAC3Cal, UAC.AGE3Cal, TSISmooPlot[,1], TSISmooPlot[,2])$estimate
+  correUACProxyRecord[11, 2] <- my.corr.test2(UAC3Cal, UAC.AGE3Cal, TSIRaw[,1], TSIRaw[,2])$estimate
   
-  correUACProxyRecord[11, 3] <- round(my.corr.test2(UAC3Cal, UAC.AGE3Cal, TSISmooPlot[,1], TSISmooPlot[,2])$p.value, 4)
+  correUACProxyRecord[11, 3] <- round(my.corr.test2(UAC3Cal, UAC.AGE3Cal, TSIRaw[,1], TSIRaw[,2])$p.value, 4)
   
-  correUACProxyRecord[12, 2] <- my.corr.test2(UAC3Cal, UAC.AGE3Cal, GreenTempBW[,1], GreenTempBW[,2])$estimate
+  correUACProxyRecord[12, 2] <- my.corr.test2(UAC3Cal, UAC.AGE3Cal, GreenTempRaw[,1], GreenTempRaw[,2])$estimate
   
-  correUACProxyRecord[12, 3] <- round(my.corr.test2(UAC3Cal, UAC.AGE3Cal, GreenTempBW[,1], GreenTempBW[,2])$p.value, 4)
+  correUACProxyRecord[12, 3] <- round(my.corr.test2(UAC3Cal, UAC.AGE3Cal, GreenTempRaw[,1], GreenTempRaw[,2])$p.value, 4)
   
-  correUACProxyRecord[13, 2] <- my.corr.test2(UAC3Cal, UAC.AGE3Cal, WMIBW[,1], WMIBW[,2])$estimate
+  correUACProxyRecord[13, 2] <- my.corr.test2(UAC3Cal, UAC.AGE3Cal, WMIRaw[,1], WMIRaw[,2])$estimate
   
-  correUACProxyRecord[13, 3] <- round(my.corr.test2(UAC3Cal, UAC.AGE3Cal, WMIBW[,1], WMIBW[,2])$p.value, 4)
+  correUACProxyRecord[13, 3] <- round(my.corr.test2(UAC3Cal, UAC.AGE3Cal, WMIRaw[,1], WMIRaw[,2])$p.value, 4)
   
-  correUACProxyRecord[14, 2] <- my.corr.test2(UAC3Cal, UAC.AGE3Cal, d18OBW[,1], d18OBW[,2])$estimate
+  correUACProxyRecord[14, 2] <- my.corr.test2(UAC3Cal, UAC.AGE3Cal, WMRaw[,1], WMRaw[,2])$estimate
   
-  correUACProxyRecord[14, 3] <- round(my.corr.test2(UAC3Cal, UAC.AGE3Cal, d18OBW[,1], d18OBW[,2])$p.value, 4)
+  correUACProxyRecord[14, 3] <- round(my.corr.test2(UAC3Cal, UAC.AGE3Cal, WMRaw[,1], WMRaw[,2])$p.value, 4)
   
-  correUACProxyRecord[15, 2] <- my.corr.test2(UAC3Cal, UAC.AGE3Cal, vssiBW[,1], vssiBW[,2])$estimate
+  correUACProxyRecord[15, 2] <- my.corr.test2(UAC3Cal, UAC.AGE3Cal, vssiRaw[,1], vssiRaw[,2])$estimate
   
-  correUACProxyRecord[15, 3] <- round(my.corr.test2(UAC3Cal, UAC.AGE3Cal, vssiBW[,1], vssiBW[,2])$p.value, 4)
+  correUACProxyRecord[15, 3] <- round(my.corr.test2(UAC3Cal, UAC.AGE3Cal, vssiRaw[,1], vssiRaw[,2])$p.value, 4)
   
   #Output the correlation results
   write.csv(correUACProxyRecord, file = file.path('Output_R', 'correUACProxyRecord.csv'))

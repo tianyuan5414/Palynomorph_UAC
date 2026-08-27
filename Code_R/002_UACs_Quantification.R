@@ -71,10 +71,6 @@
                           c(1,2), as.numeric)
   colnames(chronologyHM20)[1:2] <- c('Years', 'Depth')
   
-  #Read transfering functions between IntCal20 and GICC05
-  chronologyHM20TransferInte <- apply(read.csv(here('Data_R', 'chronologyHM20TransferInte.csv'),
-                                               row.names = 1), c(1,2), as.numeric)
-  
 }
 
 #Read smoothed and baseline corrected data, and apply clean up for the dataset
@@ -82,8 +78,8 @@
   #Sphagnum
   {
     #Read smoothed and baseline corrected spectra matrix
-    rawSmooBCSpecMatSph <- read.csv(here('Output_R',
-                                         'fingerPrintBCNorSph.csv'),
+    rawSmooBCSpecMatSph <- read.csv(here('Data_R',
+                                         'Sphagnum_CEE.csv'),
                                     header = TRUE,
                                     row.names = 1)
     
@@ -326,8 +322,8 @@
 #Output the raw and smoothed UAC signals
 {
   #Raw UAC signals
-  signalMultipleApproMatScaSph[, 3] <- oriAreaSphMean
-  signalMultipleApproMatScaSph[, 4] <- oriAreaSphSD
+  signalMultipleApproMatScaSph <- read.csv(file.path('Data_R', 'Sphagnum_CEE_UAC.csv'), row.names = 1)[, -3:-4]
+  colnames(signalMultipleApproMatScaSph) <- colnames(signalMultipleApproMatScaAln)
   signalMultipleApproMatScaAln[, 3] <- oriAreaAlnMean
   signalMultipleApproMatScaAln[, 4] <- oriAreaAlnSD
   signalMultipleApproMatScaCal[, 3] <- oriAreaCalMean
@@ -355,6 +351,4 @@
   colnames(signalMultipleApproMatScaSmoo)[2:3] <- c('Date', 'Peak_Area')
   
   write.csv(signalMultipleApproMatScaSmoo, file = here('Output_R', 'signalMultipleApproMatScaSmoo.csv'))
-  
-  
 }
